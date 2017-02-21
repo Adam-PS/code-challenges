@@ -1,21 +1,21 @@
 <div class="septaFareModule">
-	<div class="septaFareHeader">
-		<img src="img/SEPTA.png">
+	<div class="septaFareHeader dark">
+		<img class="septaLogo" src="img/SEPTA.png">
 		<h2>Regional Rail Fares</h2>
 	</div>
-	<form>
+	<form id="septaFareForm" class="septaFareForm">
 		<p>
 		    <label for="selectZone">Where are you going?</label>
-		    <select id="selectZone" ng-options="zone as zone.name for zone in formData.zones track by zone.zone" ng-model="fare.zone">
+		    <select id="selectZone" ng-options="zone as zone.name for zone in $ctrl.formData.zones track by zone.zone" ng-model="fare.zone">
 		    	<option value="">Choose a Zone</option>
 		    </select>
 		</p>
 		<p>
 		    <label for="selectTime">When are you riding?</label>
-		    <select id="selectTime" ng-options="type as type.name for type in types track by type.value" ng-model="fare.type">
+		    <select id="selectTime" ng-options="type as type.name for type in $ctrl.types track by type.value" ng-model="fare.type">
 		    	<option value="">Choose a Time</option>
 		    </select>
-		    <span>{{ formData.info[fare.type] }}</span>
+		    <span>{{ $ctrl.formData.info[$ctrl.fare.type] }}</span>
 		</p>
 		<fieldset>
 			<legend>Where will you purchase the fare?</legend>
@@ -33,8 +33,8 @@
 		    <input id="selectQuantity" type="text" ng-model="fare.trips" maxlength="3" />
 		</p>
 	</form>
-	<div class="septaFareFooter">
+	<div class="septaFareFooter dark">
 		<p>Your fare will cost</p>
-		<p>{{ fare.total }}</p>
+		<p>{{ $ctrl.fare.total }}</p>
 	</div>
 </div>

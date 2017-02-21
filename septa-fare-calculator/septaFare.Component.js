@@ -1,5 +1,5 @@
 (function() {
-	function (septaFareService) {
+	function SeptaFareFormController(septaFareService) {
 		var self = this;
 
 		self.formData = {};
@@ -31,7 +31,7 @@
 		//Calculate current fare cost based on form inputs.
 		self.calculateFare = function() {
 			var faresIndex,
-			var zoneIndex = parseInt(fare.zone - 1);
+			zoneIndex = parseInt(fare.zone - 1);
 
 			//Find the index of the correct fare data using the type and location input values.
 			switch (fare.type) {
@@ -70,11 +70,13 @@
 
 			})(zoneIndex, faresIndex);
 		};
+
+		
 	}
 
-	angular.module('septaFareApp', [])
-		.component('septaFareFormComponent', {
-			templateUrl: '/septaFareForm.html',
+	angular.module('septaFareApp')
+		.component('septaFareForm', {
+			templateUrl: 'septaFareForm.html',
 			controller: SeptaFareFormController
 		});
 }());

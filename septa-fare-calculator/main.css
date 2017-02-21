@@ -1,0 +1,38 @@
+* {
+	box-sizing: border-box;
+}
+
+.dark {
+	background-color: #666;
+}
+
+.septaFareModule {
+	max-width: 480px;
+    position: relative;
+    margin: 0 auto;
+    border: 3px solid #d3d3d3;
+}
+
+.septaFareHeader {
+	text-align: center;
+}
+
+.septaFareHeader .septaLogo, .septaFareHeader h2 {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+}
+
+
+.septaFareHeader .septaLogo {
+	max-width: 50px;
+}
+
+.septaFareHeader h2 {
+	color: #ffffff;
+	font-size: 2em;
+}
+
+.septaFareForm p, .septaFareForm label, .septaFareForm select, .septaFareForm input {
+	display: block;
+}
