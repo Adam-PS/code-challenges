@@ -1,14 +1,40 @@
-<div class="septaFareContainer">
+<div class="septaFareModule">
 	<div class="septaFareHeader">
-		<img src="img/logo.png">
+		<img src="img/SEPTA.png">
 		<h2>Regional Rail Fares</h2>
 	</div>
 	<form>
-		<fieldset></fieldset>
-		<fieldset></fieldset>
-		<fieldset></fieldset>
+		<p>
+		    <label for="selectZone">Where are you going?</label>
+		    <select id="selectZone" ng-options="zone as zone.name for zone in formData.zones track by zone.zone" ng-model="fare.zone">
+		    	<option value="">Choose a Zone</option>
+		    </select>
+		</p>
+		<p>
+		    <label for="selectTime">When are you riding?</label>
+		    <select id="selectTime" ng-options="type as type.name for type in types track by type.value" ng-model="fare.type">
+		    	<option value="">Choose a Time</option>
+		    </select>
+		    <span>{{ formData.info[fare.type] }}</span>
+		</p>
+		<fieldset>
+			<legend>Where will you purchase the fare?</legend>
+		    <p>
+		        <input id="radioPurchaseKiosk" name="radioPurchaseLocation" type="radio" ng-model="fare.location" value="advance_purchase" />
+		        <label for="radioPurchaseKiosk">Station Kiosk</label>
+		    </p>
+		    <p>
+		        <input id="radioPurchaseOnboard" name="radioPurchaseLocation" type="radio" ng-model="fare.location" ng-disabled="fare.type === 'anytime'" value="onboard_purchase" />
+		        <label for="radioPurchaseOnboard">Onboard</label>
+		    </p>
+		</fieldset>
+		<p>
+		    <label for="selectQuantity">How many rides will you need?</label>
+		    <input id="selectQuantity" type="text" ng-model="fare.trips" maxlength="3" />
+		</p>
 	</form>
 	<div class="septaFareFooter">
-
+		<p>Your fare will cost</p>
+		<p>{{ fare.total }}</p>
 	</div>
 </div>
