@@ -2,7 +2,8 @@
 	function SeptaFareFormController(septaFareService) {
 		var self = this;
 
-		self.formData = {};
+		self.info = {};
+		self.zones = [];
 
 		//Object to track current fare info based on form inputs.
 		self.fare = {
@@ -22,24 +23,23 @@
 
 		//Fetch fare data using promise from Septa fare service.
 		septaFareService.query().then(function(d) {
-			self.formData = {
-				info: d.data.info,
-				zones: d.data.zones
-			};
+			self.info = d.data.info;
+			self.zones = d.data.zones;
 		});
 
 		//Calculate current fare cost based on form inputs.
 		self.calculateFare = function() {
 			var faresIndex,
-			zoneIndex = parseInt(fare.zone - 1);
+			fareObj = self.fare;
+			zoneIndex = parseInt(fareObj.zone - 1);
 
 			//Find the index of the correct fare data using the type and location input values.
-			switch (fare.type) {
+			switch (fareObj.type) {
 				case 'weekday':
-					fare.location = 'advance_purchase' ? faresIndex = 0 : faresIndex = 1;
+					fareObj.location = 'advance_purchase' ? faresIndex = 0 : faresIndex = 1;
 					break;
 				case 'evening_weekend':
-					fare.location = 'advance_purchase' ? faresIndex = 2 : faresIndex = 3;
+					fareObj.location = 'advance_purchase' ? faresIndex = 2 : faresIndex = 3;
 					break;
 				case 'anytime':
 					faresIndex = 4;
@@ -50,14 +50,18 @@
 
 			//calcuate and set the total fare in the fare object.
 			(function(zindex, findex) {
+
+				console.log(zindex + ' + ' + findex);
+				
 				//In the case that the form inputs are empty set the value of the fare to zero.
-				if(index === -1) {
-					fare.total = 0;
+				if(findex === -1 || zindex === -1) {
+					fareObj.total = 0;
+					return;
 				}
 
-				var totalQuantity;
-				var tripsInt = parseInt(fare.trips);
-				var fareDataObj= formData.zones[zindex].fares[findex]
+				var totalQuantity,
+				tripsInt = parseInt(fareObj.trips),
+				fareDataObj= self.zones[zindex].fares[findex];
 
 				if(fareDataObj.trips === 10) {
 					//Ensure that anytime tickets are sold in packs of 10.
@@ -66,10 +70,15 @@
 					totalQuantity = tripsInt;
 				}
 
-				fare.total = (totalQuantity * fareDataObj.price).toFixed(2);
+				fareObj.total = (totalQuantity * fareDataObj.price).toFixed(2);
 
 			})(zoneIndex, faresIndex);
 		};
+
+		//Calculate fare when component controller is initialized.
+		self.$onInit = self.calculateFare;
+		//Re-calcuate fare when inputs are changed in the form.
+		self.$onChanges = self.calculateFare;
 
 		
 	}
@@ -77,6 +86,12 @@
 	angular.module('septaFareApp')
 		.component('septaFareForm', {
 			templateUrl: 'septaFareForm.html',
+			bindings: {
+		       zone: '<',
+		       type: '<',
+		       location: '<',
+		       trips: '<'
+		    },
 			controller: SeptaFareFormController
 		});
 }());

@@ -3,10 +3,10 @@
 		<img class="septaLogo" src="img/SEPTA.png">
 		<h2>Regional Rail Fares</h2>
 	</div>
-	<form id="septaFareForm" class="septaFareForm">
+	<form id="septaFareForm" class="septaFareForm" role="form" novalidate>
 		<p>
 		    <label for="selectZone">Where are you going?</label>
-		    <select id="selectZone" ng-options="zone as zone.name for zone in $ctrl.formData.zones track by zone.zone" ng-model="fare.zone">
+		    <select id="selectZone" ng-options="zone as zone.name for zone in $ctrl.zones track by zone.zone" ng-model="fare.zone">
 		    	<option value="">Choose a Zone</option>
 		    </select>
 		</p>
@@ -15,7 +15,7 @@
 		    <select id="selectTime" ng-options="type as type.name for type in $ctrl.types track by type.value" ng-model="fare.type">
 		    	<option value="">Choose a Time</option>
 		    </select>
-		    <span>{{ $ctrl.formData.info[$ctrl.fare.type] }}</span>
+		    <span>{{ $ctrl.info[$ctrl.fare.type] }}</span>
 		</p>
 		<fieldset>
 			<legend>Where will you purchase the fare?</legend>
