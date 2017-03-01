@@ -6,13 +6,13 @@
 	<form id="septaFareForm" class="septaFareForm" role="form" novalidate>
 		<p>
 		    <label for="selectZone">Where are you going?</label>
-		    <select id="selectZone" ng-options="zone as zone.name for zone in $ctrl.zones track by zone.zone" ng-model="fare.zone">
+		    <select id="selectZone" ng-options="zone.zone as zone.name for zone in $ctrl.zones track by zone.zone" ng-model="$ctrl.fare.zone" ng-change="$ctrl.calculateFare()" >
 		    	<option value="">Choose a Zone</option>
 		    </select>
 		</p>
 		<p>
 		    <label for="selectTime">When are you riding?</label>
-		    <select id="selectTime" ng-options="type as type.name for type in $ctrl.types track by type.value" ng-model="fare.type">
+		    <select id="selectTime" ng-options="value as name for (name, value) in $ctrl.types track by value" ng-model="$ctrl.fare.type" ng-change="$ctrl.calculateFare()" >
 		    	<option value="">Choose a Time</option>
 		    </select>
 		    <span>{{ $ctrl.info[$ctrl.fare.type] }}</span>
@@ -20,21 +20,21 @@
 		<fieldset>
 			<legend>Where will you purchase the fare?</legend>
 		    <p>
-		        <input id="radioPurchaseKiosk" name="radioPurchaseLocation" type="radio" ng-model="fare.location" value="advance_purchase" />
+		        <input id="radioPurchaseKiosk" type="radio" ng-model="$ctrl.fare.location" ng-change="$ctrl.calculateFare()" value="advance_purchase" />
 		        <label for="radioPurchaseKiosk">Station Kiosk</label>
 		    </p>
 		    <p>
-		        <input id="radioPurchaseOnboard" name="radioPurchaseLocation" type="radio" ng-model="fare.location" ng-disabled="fare.type === 'anytime'" value="onboard_purchase" />
+		        <input id="radioPurchaseOnboard" type="radio" ng-model="$ctrl.fare.location" ng-change="$ctrl.calculateFare()" ng-disabled="fare.type === 'anytime'" value="onboard_purchase" />
 		        <label for="radioPurchaseOnboard">Onboard</label>
 		    </p>
 		</fieldset>
 		<p>
 		    <label for="selectQuantity">How many rides will you need?</label>
-		    <input id="selectQuantity" type="text" ng-model="fare.trips" maxlength="3" />
+		    <input id="selectQuantity" type="text" ng-model="$ctrl.fare.trips" ng-change="$ctrl.calculateFare()" maxlength="3" />
 		</p>
 	</form>
 	<div class="septaFareFooter dark">
 		<p>Your fare will cost</p>
-		<p>{{ $ctrl.fare.total }}</p>
+		<p>${{ $ctrl.fare.total }}</p>
 	</div>
 </div>
